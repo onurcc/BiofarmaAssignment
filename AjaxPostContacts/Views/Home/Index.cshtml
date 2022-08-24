@@ -1,0 +1,66 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@model AjaxPostContacts.Models.ContactModel
+
+<div class="row">
+    <div class="col-md-8 col-lg-offset-4">
+        <h2>Add User</h2>
+        <br />
+        <span>Name: </span> @Html.TextBoxFor(x => x.Name, new{@class = "form-control"})<br />
+        <span>Date: </span> @Html.TextBoxFor(x => x.RecordDate, new{@class = "form-control"})<br />
+        <span>Age: </span> @Html.TextBoxFor(x => x.Age, new{@class = "form-control"})<br />
+        <span>City: </span> @Html.TextBoxFor(x => x.City, new{@class = "form-control"})<br />
+        <button class="btn btn-default" onclick='SaveContact()'>Save</button> <br /> <br />
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 col-lg-offset-3">
+        <h2>New User List</h2><br />
+        <table id="myTable" class="table-striped">
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Age</th>
+                <th>City</th>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script>
+    function SaveContact(){
+
+         var formData = {
+            Name: $("#Name").val(),
+            RecordDate: $("#RecordDate").val(),
+            Age: $("#Age").val(),
+            City: $("#City").val(),
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/Home/AddContact",
+            data: JSON.stringify(formData),
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                $("#myTable").append("<tr><td>" +
+                result.Name + "</td><td>" +
+                result.RecordDate + "</td><td>" +
+                result.Age + "</td><td>" +
+                result.City + "</td></tr>");
+
+                $("#Name").val("");
+                $("#RecordDate").val("");
+                $("#Age").val("");
+                $("#City").val("");
+            },
+            failure: function (result) {
+                alert(result.responseText);
+            }
+        })
+    }
+</script>
