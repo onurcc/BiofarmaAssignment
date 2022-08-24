@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AjaxPostContacts", "AjaxPos
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParallelLines", "ParallelLines\ParallelLines.csproj", "{4C85783C-F708-43C0-A924-E51905705566}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HesValidation", "HesValidation\HesValidation.csproj", "{14593F6F-6DA1-4712-B429-A7407C2FF36A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{4C85783C-F708-43C0-A924-E51905705566}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C85783C-F708-43C0-A924-E51905705566}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C85783C-F708-43C0-A924-E51905705566}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14593F6F-6DA1-4712-B429-A7407C2FF36A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14593F6F-6DA1-4712-B429-A7407C2FF36A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14593F6F-6DA1-4712-B429-A7407C2FF36A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14593F6F-6DA1-4712-B429-A7407C2FF36A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
