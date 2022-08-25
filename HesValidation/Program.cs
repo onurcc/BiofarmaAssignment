@@ -1,5 +1,8 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using RestSharp;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 
@@ -24,13 +27,13 @@ namespace HesValidation
                     request.AddJsonBody(payload);
                     var result = client.PostAsync(request).Result;
 
-                    if (result("status") == "risky")
+                    if (result.status == "risky")
                     {
-                        risky.Add(item.hes);
+                        risky.Add(result.hes);
                     }
-                    else if(result("status") = "riskless")
+                    else if(result.status == "riskless")
                     {
-                        riskless.Add(item.hes);
+                        riskless.Add(result.hes);
                     }
                 }
             }
