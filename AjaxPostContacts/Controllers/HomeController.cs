@@ -27,23 +27,5 @@ namespace AjaxPostContacts.Controllers
         {
             return View();
         }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        [HttpPost]
-        public ActionResult AddContact([FromBody] string name, DateTime date, int age, string city)
-        {
-            var contact = new ContactModel();
-
-            contact.Name = name;
-            contact.RecordDate = date;
-            contact.Age = age;
-            contact.City = city;
-            return new JsonResult(new { data = contact });
-        }
     }
 }
