@@ -1,42 +1,69 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace HesValidation
 {
+    class HesModel
+    {
+        public string Hes { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Hes}";
+        }        
+    }
+
     internal class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            string[] data = { "G1B5-6449-15", "G5B2-3442-88" };
+            string[] HesCodes = { "G1B5-6449-15", "G5B2-3442-88" };
 
-            List<string> risky = new List<string>();
-            List<string> riskless = new List<string>();
+            List<string> riskyList = new List<string>();
+            List<string> risklessList = new List<string>();
 
-            foreach (var item in data)
+            foreach (string hes in HesCodes)
             {
-                using (var client = new RestClient("https://api.saglikbakanligi.gov.tr/HES/dogrula"))
-                {
-                    var payload = new JObject();
-                    payload.Add("hes", item);
-                    var request = new RestRequest();
-                    request.AddJsonBody(payload);
-                    var result = client.PostAsync(request).Result;
+                var hesInstance = new HesModel();
+                hesInstance.Hes = hes;
 
-                    if (result.status == "risky")
-                    {
-                        risky.Add(result.hes);
-                    }
-                    else if(result.status == "riskless")
-                    {
-                        riskless.Add(result.hes);
-                    }
+                var json = JsonConvert.SerializeObject(hesInstance);
+                var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var url = " https://api.saglikbakanligi.gov.tr/HES/dogrula";
+                using var client = new HttpClient();
+
+                var response = await client.PostAsync(url, data);
+
+                string result = response.Content.ReadAsStringAsync().Result;
+                JObject jsonResult = JObject.Parse(result);
+
+                if (jsonResult["status"].ToString() == "risky")
+                {
+                    riskyList.Add(jsonResult["hes"].ToString());
+                }
+                else if (jsonResult["status"].ToString() == "riskless")
+                {
+                    risklessList.Add(jsonResult["hes"].ToString());
                 }
             }
+
+            foreach (var item in riskyList)
+            {
+                Console.WriteLine( "Riskli kod: " + item);
+            }
+
+            foreach (var item in risklessList)
+            {
+                Console.WriteLine("Risksiz kod: " + item);
+            }
+
         }
+
     }
 }
