@@ -6,7 +6,7 @@
 
 <div class="row">
     <div class="col-md-8 col-lg-offset-4">
-        <h2>Add User</h2>
+        <h2>Add Contact</h2>
         <br />
         <span>Name: </span> @Html.TextBoxFor(x => x.Name, new{@class = "form-control"})<br />
         <span>Date: </span> @Html.TextBoxFor(x => x.RecordDate, new{@class = "form-control", @type = "date"})<br />
@@ -19,7 +19,7 @@
 
 <div class="row">
     <div class="col-md-8 col-lg-offset-3">
-        <h2>New User List</h2><br />
+        <h2>New Contact List</h2><br />
         <table id="myTable" class="table-striped">
             <tr>
                 <th>Name</th>
@@ -31,47 +31,38 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-        crossorigin="anonymous"></script>
+<style>
+    #myTable tr th{
+        color: white;
+        width: 300px;
+        height: 40px;
+        text-decoration: solid;
+        background-color: green;
+        padding: 10px;
+    }
+</style>
 
 <script type="text/javascript">
+
     function SaveContact() {
         var Name = $("#Name").val();
         var RecordDate = $("#RecordDate").val();
         var Age = parseInt($("#Age").val());
         var City = $("#City").val();
 
-        //var data = {
-        //    name: Name,
-        //    recorddate: RecordDate,
-        //    age: Age,
-        //    city: City
-        //};
-
-        //console.log(Name);
-        //console.log(RecordDate);
-        //console.log(Age);
-        //console.log(City);
-
-        //console.log(data);
-        //console.log(JSON.stringify({ data }));
-
-        //TODO - Post controller'a null gidiyor
         $.ajax({
             type: "POST",
             url: "/Contact/AddContact",
-            //data: JSON.stringify({data}),
-            //data: {name : Name, recorddate : RecordDate, age : Age, city : City},
-            data: JSON.stringify({ name: Name, recorddate: RecordDate, age: Age, city: City }),
-            contentType: 'application/json; charset=utf-8',
-            //dataType: "json",
+            data: {name : Name, recorddate : RecordDate, age : Age, city : City},
             success: function (result) {
+
+                var json = JSON.parse(JSON.stringify(result.data));
+
                 $("#myTable").append("<tr><td>" +
-                    result.Name + "</td><td>" +
-                    result.RecordDate + "</td><td>" +
-                    result.Age + "</td><td>" +
-                    result.City + "</td></tr>");
+                    json['name'] + "</td><td>" +
+                    new Date(json['recordDate']).toDateString() + "</td><td>" +
+                    json['age'] + "</td><td>" +
+                    json['city'] + "</td></tr>");
                 $("#Name").val("");
                 $("#RecordDate").val("");
                 $("#Age").val("");
@@ -82,4 +73,5 @@
             }
         })
     };
+
 </script>
